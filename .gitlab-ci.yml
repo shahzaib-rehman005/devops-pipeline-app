@@ -1,0 +1,34 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  IMAGE: bunny324/practice
+
+test:
+  stage: test
+  tags:
+    - self-hosted
+  script:
+    - npm install
+    - npm test
+
+build_and_push:
+  stage: build
+  tags:
+    - self-hosted
+  script:
+    - echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+    - docker build -t $IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker push $IMAGE:$CI_COMMIT_SHORT_SHA
+
+deploy:
+  stage: deploy
+  tags:
+    - self-hosted
+  script:
+    - kubectl set image deployment/app-deployment app=$IMAGE:$CI_COMMIT_SHORT_SHA
+    - kubectl rollout status deployment/app-deployment
+  only:
+    - main
