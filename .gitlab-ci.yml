@@ -21,6 +21,7 @@ build_and_push:
   script:
     - echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
     - docker build -t $IMAGE:$CI_COMMIT_SHORT_SHA .
+    - trivy image --severity HIGH,CRITICAL --exit-code 0 $IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE:$CI_COMMIT_SHORT_SHA
 
 deploy:

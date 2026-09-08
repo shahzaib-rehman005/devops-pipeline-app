@@ -36,6 +36,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t bunny324/practice:${{ steps.vars.outputs.sha_short }} .
 
+      - name: Scan image with Trivy
+        run: trivy image --severity HIGH,CRITICAL --exit-code 0 bunny324/practice:${{ steps.vars.outputs.sha_short }}
+
       - name: Push Docker image
         run: docker push bunny324/practice:${{ steps.vars.outputs.sha_short }}
 
