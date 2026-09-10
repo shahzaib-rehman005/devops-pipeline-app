@@ -24,12 +24,16 @@ build_and_push:
     - trivy image --severity HIGH,CRITICAL --exit-code 0 $IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE:$CI_COMMIT_SHORT_SHA
 
-deploy:
+update_manifest:
   stage: deploy
   tags:
     - self-hosted
   script:
-    - kubectl set image deployment/app-deployment app=$IMAGE:$CI_COMMIT_SHORT_SHA
-    - kubectl rollout status deployment/app-deployment
+    - sed -i '' "s|image: $IMAGE:.*|image: $IMAGE:$CI_COMMIT_SHORT_SHA|" k8s/deployment.yaml
+    - git config user.name "gitlab-ci"
+    - git config user.email "gitlab-ci@example.com"
+    - git remote set-url origin git@gitlab.com:nk780877/devops-pipeline-app.git
+    - git commit -am "Update image to $CI_COMMIT_SHORT_SHA [skip ci]"
+    - git push origin HEAD:main
   only:
     - main

@@ -7,6 +7,8 @@ on:
 jobs:
   build-test-push:
     runs-on: self-hosted
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -42,7 +44,10 @@ jobs:
       - name: Push Docker image
         run: docker push bunny324/practice:${{ steps.vars.outputs.sha_short }}
 
-      - name: Deploy to local k3s
+      - name: Update image tag in Git (triggers ArgoCD sync)
         run: |
-          kubectl set image deployment/app-deployment app=bunny324/practice:${{ steps.vars.outputs.sha_short }}
-          kubectl rollout status deployment/app-deployment
+          sed -i '' "s|image: bunny324/practice:.*|image: bunny324/practice:${{ steps.vars.outputs.sha_short }}|" k8s/deployment.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update image to ${{ steps.vars.outputs.sha_short }} [skip ci]"
+          git push
