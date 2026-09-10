@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: app-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+  - name: app.rules
+    rules:
+    - alert: AppDown
+      expr: up{job="app-service"} == 0
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "App pod down"
+        description: "app-service ka ek pod 2 minute se down hai."
