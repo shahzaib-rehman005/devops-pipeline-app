@@ -29,7 +29,7 @@ update_manifest:
   tags:
     - self-hosted
   script:
-    - sed -i '' "s|image: $IMAGE:.*|image: $IMAGE:$CI_COMMIT_SHORT_SHA|" k8s/deployment.yaml
+    - "sed -i '' \"s|image: $IMAGE:.*|image: $IMAGE:$CI_COMMIT_SHORT_SHA|\" k8s/deployment.yaml"
     - git config user.name "gitlab-ci"
     - git config user.email "gitlab-ci@example.com"
     - git remote set-url origin git@gitlab.com:nk780877/devops-pipeline-app.git
