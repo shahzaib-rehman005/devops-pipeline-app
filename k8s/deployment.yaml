@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: bunny324/practice:0b2c74e
+        image: bunny324/practice:f73e31d
         ports:
         - containerPort: 3000
         resources:
