@@ -46,10 +46,11 @@ jobs:
 
       - name: Update image tag in Git (triggers ArgoCD sync)
         run: |
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
           sed -i '' "s|image: bunny324/practice:.*|image: bunny324/practice:${{ steps.vars.outputs.sha_short }}|" k8s/deployment.yaml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit -am "Update image to ${{ steps.vars.outputs.sha_short }} [skip ci]"
-          git fetch origin main
-          git rebase origin/main
-          git push
+          git push origin HEAD:main
