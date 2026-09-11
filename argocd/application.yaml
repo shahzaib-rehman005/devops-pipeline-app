@@ -4,7 +4,7 @@ metadata:
   name: devops-pipeline-app
   namespace: argocd
 spec:
-  project: default
+  project: devops-pipeline-project
   source:
     repoURL: https://github.com/shahzaib-rehman005/devops-pipeline-app.git
     targetRevision: main

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: devops-pipeline-project
+  namespace: argocd
+spec:
+  description: Restricted project for devops-pipeline-app — least privilege
+  sourceRepos:
+    - https://github.com/shahzaib-rehman005/devops-pipeline-app.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: default
+    - server: https://kubernetes.default.svc
+      namespace: monitoring
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: apps
+      kind: Deployment
+    - group: ""
+      kind: Service
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+    - group: monitoring.coreos.com
+      kind: AlertmanagerConfig
