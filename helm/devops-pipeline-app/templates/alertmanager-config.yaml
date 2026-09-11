@@ -2,7 +2,6 @@ apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: slack-config
-  namespace: default
   labels:
     release: monitoring
 spec:
@@ -18,7 +17,7 @@ spec:
     - apiURL:
         name: slack-webhook
         key: url
-      channel: '#general'
+      channel: {{ .Values.slack.channel | quote }}
       sendResolved: true
-      title: "{{ .CommonAnnotations.summary }}"
-      text: "{{ .CommonAnnotations.description }}"
+      title: '{{`{{ .CommonAnnotations.summary }}`}}'
+      text: '{{`{{ .CommonAnnotations.description }}`}}'

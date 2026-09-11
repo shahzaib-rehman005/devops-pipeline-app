@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/shahzaib-rehman005/devops-pipeline-app.git
     targetRevision: main
-    path: k8s
+    path: helm/devops-pipeline-app
   destination:
     server: https://kubernetes.default.svc
     namespace: default

@@ -1,0 +1,29 @@
+replicaCount: 3
+
+image:
+  repository: bunny324/practice
+  tag: 55b2c54
+
+service:
+  type: NodePort
+  port: 3000
+  nodePort: 30000
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+hpa:
+  minReplicas: 3
+  maxReplicas: 8
+  targetCPUUtilization: 50
+
+monitoring:
+  namespace: monitoring
+
+slack:
+  channel: "#general"
