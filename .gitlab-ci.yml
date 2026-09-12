@@ -1,7 +1,6 @@
 stages:
   - test
   - build
-  - deploy
 
 variables:
   IMAGE: bunny324/practice
@@ -23,20 +22,3 @@ build_and_push:
     - docker build -t $IMAGE:$CI_COMMIT_SHORT_SHA .
     - trivy image --severity HIGH,CRITICAL --exit-code 0 $IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE:$CI_COMMIT_SHORT_SHA
-
-update_manifest:
-  stage: deploy
-  tags:
-    - self-hosted
-  script:
-    - git remote set-url origin git@gitlab.com:nk780877/devops-pipeline-app.git
-    - git fetch origin main
-    - git checkout main
-    - git reset --hard origin/main
-    - "sed -i '' \"s|^  tag:.*|  tag: \\\"$CI_COMMIT_SHORT_SHA\\\"|\" helm/devops-pipeline-app/values.yaml"
-    - git config user.name "gitlab-ci"
-    - git config user.email "gitlab-ci@example.com"
-    - git commit -am "Update image to $CI_COMMIT_SHORT_SHA [skip ci]"
-    - git push origin HEAD:main
-  only:
-    - main
