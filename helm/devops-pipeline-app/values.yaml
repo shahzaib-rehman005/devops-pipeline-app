@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: bunny324/practice
-  tag: "a78d98f"
+  tag: "4e3aef2"
 
 service:
   type: NodePort
