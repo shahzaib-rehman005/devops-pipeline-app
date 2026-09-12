@@ -30,3 +30,5 @@ spec:
       kind: PrometheusRule
     - group: monitoring.coreos.com
       kind: AlertmanagerConfig
+    - group: networking.k8s.io
+      kind: Ingress

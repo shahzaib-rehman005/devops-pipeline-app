@@ -27,3 +27,6 @@ monitoring:
 
 slack:
   channel: "#general"
+
+ingress:
+  host: app.local
