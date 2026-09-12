@@ -12,7 +12,9 @@ spec:
       namespace: default
     - server: https://kubernetes.default.svc
       namespace: monitoring
-  clusterResourceWhitelist: []
+  clusterResourceWhitelist:
+    - group: cert-manager.io
+      kind: ClusterIssuer
   namespaceResourceWhitelist:
     - group: apps
       kind: Deployment
@@ -32,3 +34,5 @@ spec:
       kind: AlertmanagerConfig
     - group: networking.k8s.io
       kind: Ingress
+    - group: cert-manager.io
+      kind: Certificate
