@@ -33,7 +33,7 @@ update_manifest:
     - git fetch origin main
     - git checkout main
     - git reset --hard origin/main
-    - "sed -i '' \"s|^  tag:.*|  tag: $CI_COMMIT_SHORT_SHA|\" helm/devops-pipeline-app/values.yaml"
+    - "sed -i '' \"s|^  tag:.*|  tag: \\\"$CI_COMMIT_SHORT_SHA\\\"|\" helm/devops-pipeline-app/values.yaml"
     - git config user.name "gitlab-ci"
     - git config user.email "gitlab-ci@example.com"
     - git commit -am "Update image to $CI_COMMIT_SHORT_SHA [skip ci]"
