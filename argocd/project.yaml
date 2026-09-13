@@ -36,3 +36,5 @@ spec:
       kind: Ingress
     - group: cert-manager.io
       kind: Certificate
+    - group: argoproj.io
+      kind: Rollout
