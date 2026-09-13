@@ -31,3 +31,6 @@ slack:
 
 ingress:
   host: app.local
+
+certManager:
+  enabled: false
